@@ -1,5 +1,3 @@
-import { ThemeProvider } from "@emotion/react";
-import { themes } from "@styles/theme";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

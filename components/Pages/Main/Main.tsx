@@ -55,6 +55,7 @@ export const Main = () => {
         });
       }
     } catch (e) {
+      console.error(e);
       enqueueSnackbar({
         message: "Something went wrong, please try again later",
         variant: "error",
