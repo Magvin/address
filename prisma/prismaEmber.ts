@@ -11,6 +11,11 @@ if (IS_BROWSER)
  * Ensures only one instance of Prisma Client is used throughout the application.
  * As example you might have two prisma clients on for auth on for db....don't even ask why,
  */
+
+/**
+ * For some reason there is an issue with PRISMA + NEXTJS
+ *
+ */
 export const prismaClientSingleton = (() => {
   let prisma!: PrismaClient<
     {

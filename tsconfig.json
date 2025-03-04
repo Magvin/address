@@ -24,7 +24,9 @@
       "@styles/*": ["styles/*"],
       "@helpers/*": ["helpers/*"],
       "@prisma-ember/*": ["prisma/*"],
-      "@handlers/*": ["handlers/*"]
+      "@handlers/*": ["handlers/*"],
+      "@svg/*": ["images/svg/*"]
+
 
 
     }

@@ -2,10 +2,12 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   webpack: (config) => {
-    if (Array.isArray(config.externals)) {
-      // noinspection JSUnresolvedReference
-      config.externals.push("pino-pretty", "lokijs", "encoding");
-    }
+    config.module.rules.push({
+      test: /\.svg$/i,
+      issuer: /\.[jt]sx?$/,
+      resourceQuery: { not: /url/ }, // exclude if *.svg?url
+      use: ["@svgr/webpack"],
+    });
     return config;
   },
 };

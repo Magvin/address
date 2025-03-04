@@ -26,5 +26,6 @@ export const globalStyles = css`
     position: relative;
     background-color: var(${pageBackgroundVar}) !important;
     color: var(${textColorVar});
+    margin: 0;
   }
 `;
