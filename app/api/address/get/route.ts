@@ -1,4 +1,4 @@
-import { prismaEmber } from "@prisma-ember/prisma";
+import AddressModal from "@prisma-ember/models/AddressModel";
 import { NextResponse } from "next/server";
 export const config = {
   api: {
@@ -8,7 +8,7 @@ export const config = {
 
 export async function GET() {
   try {
-    const response = await prismaEmber.address.findMany();
+    const response = await AddressModal.findMany();
     /**
      * We could potentially implement also pagination
      * but let's be skin for now

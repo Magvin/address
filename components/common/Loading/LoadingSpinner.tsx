@@ -35,7 +35,7 @@ export const LoadingSpinner = ({
         <stop offset="1" stopColor={color} stopOpacity="0"></stop>
       </radialGradient>
       <circle
-        transform-origin="center"
+        transformOrigin="center"
         fill="none"
         stroke="url(#a2)"
         strokeWidth="15"
@@ -58,7 +58,7 @@ export const LoadingSpinner = ({
         ></animateTransform>
       </circle>
       <circle
-        transform-origin="center"
+        transformOrigin="center"
         fill="none"
         opacity=".2"
         stroke={color}

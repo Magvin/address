@@ -1,23 +1,24 @@
 "use client";
 
 import { MainLayout } from "@components/common/Layout/MainLayout";
-import { LoadingSpinner } from "@components/common/Loading/LoadingSpinner";
 import styled from "@emotion/styled";
 import { emberHTTP } from "@helpers/http";
 import { Address } from "@prisma-ember/models/AddressModel";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import BookSVG from "@svg/book.svg";
-import BinSVG from "@svg/bin.svg";
 import { rgba } from "polished";
-import { SnackbarProvider, enqueueSnackbar } from "notistack";
+import { SnackbarProvider } from "notistack";
+import { LoadingSpinner } from "@components/common/Loading/LoadingSpinner";
+import { Card } from "@components/Pages/Main/Card/Card";
+import { useAddressContext } from "@providers/AddressContext";
+
 /**
  * As this is single page i won't implement any redux/recoil/mobx/zustand state management tool
  * Also we can move everything to own folders like a big guys, but it's one component.
  */
 export const Main = () => {
-  const [address, setAddress] = useState<Address[]>([]);
+  const { addresses, setAddresses } = useAddressContext();
   const [loading, setLoading] = useState(false);
-  const [deleteSpinner, setDeleteSpinner] = useState<string>();
 
   useEffect(() => {
     (async () => {
@@ -29,40 +30,11 @@ export const Main = () => {
       }>("/api/address/get");
 
       if (status === 200) {
-        setAddress(data);
+        setAddresses(data);
       }
 
       setLoading(false);
     })();
-  }, []);
-
-  const handleDelete = useCallback(async (id: string) => {
-    try {
-      setDeleteSpinner(id);
-      const { status, data } = await emberHTTP<{
-        status: number;
-        data: Address;
-      }>("/api/address/delete", {
-        method: "POST",
-        body: JSON.stringify({ id }),
-      });
-      if (status === 200) {
-        setAddress((prev) => [...prev.filter((item) => item.id !== data.id)]);
-        enqueueSnackbar({
-          message: "Success",
-          variant: "success",
-          autoHideDuration: 500,
-        });
-      }
-    } catch (e) {
-      console.error(e);
-      enqueueSnackbar({
-        message: "Something went wrong, please try again later",
-        variant: "error",
-        autoHideDuration: 500,
-      });
-    }
-    setDeleteSpinner(undefined);
   }, []);
 
   if (loading) {
@@ -85,20 +57,14 @@ export const Main = () => {
             <h1>My Address Book</h1>
           </div>
           <div className="addresses">
-            {address.map(({ id, address, country, zip }) => {
-              return (
-                <div className="card" key={id}>
-                  <span className="country">{country}</span>
-                  <div className="address">
-                    <h3>{address}</h3>
-                    <span>{zip}</span>
-                  </div>
-                  <button onClick={async () => await handleDelete(String(id))}>
-                    {deleteSpinner ? <LoadingSpinner /> : <BinSVG />}
-                  </button>
-                </div>
-              );
-            })}
+            {addresses.map((address) => (
+              <Card
+                key={address.id}
+                {...{
+                  ...address,
+                }}
+              />
+            ))}
           </div>
         </div>
       </Container>
@@ -122,6 +88,28 @@ const Container = styled.div`
     border-radius: 8px;
     padding: 24px;
     display: grid;
+    grid-template-columns: 1fr 24px;
+    align-items: center;
+
+    &:hover,
+    &:focus {
+      .right {
+        opacity: 1;
+        pointer-event: all;
+        transition: opacity 0.5s;
+      }
+    }
+
+    .left {
+      display: inherit;
+      gap: 8px;
+    }
+    .right {
+      opacity: 0;
+      pointer-event: none;
+      display: inherit;
+      gap: 8px;
+    }
 
     gap: 8px;
     button {

@@ -1,5 +1,10 @@
 import { Main } from "@components/Pages/Main/Main";
+import { AddressProvider } from "@providers/AddressContext";
 
 export default function Home() {
-  return <Main />;
+  return (
+    <AddressProvider>
+      <Main />
+    </AddressProvider>
+  );
 }

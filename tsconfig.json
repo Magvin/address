@@ -25,7 +25,9 @@
       "@helpers/*": ["helpers/*"],
       "@prisma-ember/*": ["prisma/*"],
       "@handlers/*": ["handlers/*"],
-      "@svg/*": ["images/svg/*"]
+      "@svg/*": ["images/svg/*"],
+      "@providers/*": ["providers/*"]
+
 
 
 
